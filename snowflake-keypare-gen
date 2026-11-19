@@ -1,1 +1,25 @@
+# key pair is generated in locally, open powershell when press windows button, not in snowflake itself
+#To generate an unencrypted version, use the following command:
+winget install --id Git.Git -e --source winget
 
+#run the following and generate the key pair. you need to type the password a few times.
+#Generate the key pair in $HOME\.snowflake and verify it
+New-Item -ItemType Directory -Force -Path "$HOME\.snowflake"
+Set-Location "$HOME\.snowflake"
+openssl genrsa 2048 | openssl pkcs8 -topk8 -v2 aes-256-cbc -inform PEM -out rsa_key.p8
+openssl rsa -in rsa_key.p8 -pubout -out rsa_key.pub
+
+#Generate the matching public key (rsa_key.pub):
+& "C:\Program Files\Git\usr\bin\openssl.exe" rsa -in rsa_key.p8 -pubout -out rsa_key.pub
+
+#Verify both files exist in the folder:
+Get-ChildItem
+
+#View and copy your public key for Snowflake:
+Get-Content rsa_key.pub
+
+#Register the public key in Snowflake, this part need to run at snowflake.
+SELECT CURRENT_USER();
+SHOW USERS;
+
+ALTER USER DBT_ADMIN_USER ADD KEY PAIR my_dbt_key PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7ZGm00Wr8iH9ezZAt2IugJK9K7OHOtuQ/WsbHR1yrmOcx4R0vioJPAyHpFTMjb+cZUQ6tL99b3Iu+H4SIKkg2UIzHTSkBOL2DoG4kBuyWAzN9S2Ye6u9MRouN07uyjUfeNqtY8wKAdk1bd1WxwQCTzYKaZYL+BYR10Ya24KVG2UOZ2pojY/6JQyJ3dFp8NW/1HolmUW4HwiicJCPDrGPUXFi2gzQnL7JCi28kqbgL4mGJ04XgfXvwz3i6sWf85mCgiVpkd0s8bvsQO8RVPisthuYkmQQFTecjAhFyJfcoxdHtppc/smqaGXgugFdBiKkLlYWCI4DFme0OXxAELiH0wIDAQAB';
