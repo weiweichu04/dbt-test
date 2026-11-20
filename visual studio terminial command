@@ -1,0 +1,7 @@
+PS C:\Users\hedge> cd  .\dbt_workspace\ 
+PS C:\Users\hedge\dbt_workspace> python -m vent dbt_vent
+C:\Users\hedge\AppData\Local\Python\pythoncore-3.14-64\python.exe: No module named vent
+PS C:\Users\hedge\dbt_workspace> python -m venv dbt_venv 
+PS C:\Users\hedge\dbt_workspace> .\dbt_venv\Scripts\Activate.ps1
+(dbt_venv) PS C:\Users\hedge\dbt_workspace> pip install dbt-snowflake
+  (dbt_venv) PS C:\Users\hedge\dbt_workspace> mkdir $home\.dbt
