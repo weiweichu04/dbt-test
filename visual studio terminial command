@@ -5,3 +5,11 @@ PS C:\Users\hedge\dbt_workspace> python -m venv dbt_venv
 PS C:\Users\hedge\dbt_workspace> .\dbt_venv\Scripts\Activate.ps1
 (dbt_venv) PS C:\Users\hedge\dbt_workspace> pip install dbt-snowflake
   (dbt_venv) PS C:\Users\hedge\dbt_workspace> mkdir $home\.dbt
+
+(dbt_venv) PS C:\Users\hedge\dbt_workspace\snowflake_test1> C:\Users\hedge\dbt_workspace\dbt_venv\Scripts\Activate.ps1    
+(dbt_venv) PS C:\Users\hedge\dbt_workspace\snowflake_test1> dbt run   
+
+(dbt_venv) PS C:\Users\hedge\dbt_workspace\snowflake_test1> dbt run --models +customerrevenue                                                   
+
+(dbt_venv) PS C:\Users\hedge\dbt_workspace\snowflake_test1> dbt parse   
+(dbt_venv) PS C:\Users\hedge\dbt_workspace\snowflake_test1> dbt run --select customers_stg orderitems_stg orders_stg orders_fact customerrevenue
